@@ -2,6 +2,7 @@ package com.example.asm;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -75,7 +76,9 @@ public class CreateExpendituresFragment extends Fragment implements View.OnClick
 
     @Override
     public void onClick(View view) {
-
+        if (view.getId() == R.id.btnCreate) {
+            onCreate();
+        }
     }
 
     private ArrayList<String> getCategories(Cursor cursor){
@@ -91,18 +94,19 @@ public class CreateExpendituresFragment extends Fragment implements View.OnClick
         return categories;
     }
 
-//    private void onCreate() {
-//        if (edName.getText().toString().isEmpty()) {
-//            Toast.makeText(this.getContext(), "Please enter name", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        if (edMoney.getText().toString().isEmpty()) {
-//            Toast.makeText(this.getContext(), "Please enter money", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        String isAdd = dbHelper.addPayment(edName.getText().toString(), spCategory.getSelectedItem(), edDescription.getText().toString());
-//        Toast.makeText(this, isAdd, Toast.LENGTH_SHORT).show();
+    private void onCreate() {
+        if (edName.getText().toString().isEmpty()) {
+            Toast.makeText(this.getContext(), "Please enter name", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (edMoney.getText().toString().isEmpty()) {
+            Toast.makeText(this.getContext(), "Please enter money", Toast.LENGTH_LONG).show();
+            return;
+        }
+        String isAdd = dbHelper.addPayment(edName.getText().toString(), spCategory.getSelectedItem().toString(),
+                edDetail.getText().toString(), datePicker.getDayOfMonth()+"-"+datePicker.getMonth()+"-"+datePicker.getYear(), edMoney.getText().toString(), edDescription.getText().toString());
+        Toast.makeText(this.getContext(), isAdd, Toast.LENGTH_SHORT).show();
 //        Intent intent = new Intent(this, ListUserActivity.class);
 //        startActivity(intent);
-//    }
+    }
 }

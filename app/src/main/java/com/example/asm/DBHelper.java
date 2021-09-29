@@ -16,6 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String ID = "_id";
     public static final String NAME = "name";
     public static final String CATEGORY_ID = "category_id";
+    public static final String CATEGORY_NAME = "category_name";
     public static final String DETAIL = "detail";
     public static final String AMOUNT = "amount";
     public static final String DESCRIPTION = "description";
@@ -30,13 +31,12 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sqlPayment = "CREATE TABLE " + PAYMENTS_TABLE + "( " +
                 ID + " INTEGER PRIMARY KEY, " +
-                CATEGORY_ID + " INTEGER," +
+                CATEGORY_NAME + " TEXT," +
                 NAME + " TEXT, " +
                 PAYMENT_DATE + "DATE," +
                 DETAIL + " TEXT, " +
                 AMOUNT + " REAL, " +
-                DESCRIPTION + " TEXT," +
-                " FOREIGN KEY( " + CATEGORY_ID + ")" + " REFERENCES " + CATEGORIES_TABLE_NAME + "(" + ID + "));";
+                DESCRIPTION + " TEXT);";
         sqLiteDatabase.execSQL(sqlPayment);
 
         String sqlCategory = "CREATE TABLE " + CATEGORIES_TABLE_NAME + "( " +
@@ -74,11 +74,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public String addPayment(String name, int categoryId, String detail, String paymentDate, double amount, String description) {
+    public String addPayment(String name, String categoryName, String detail, String paymentDate, String amount, String description) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(NAME, name);
-        contentValues.put(CATEGORY_ID, categoryId);
+        contentValues.put(CATEGORY_NAME, categoryName);
         contentValues.put(PAYMENT_DATE, paymentDate);
         contentValues.put(DETAIL, detail);
         contentValues.put(AMOUNT, amount);

@@ -1,5 +1,7 @@
 package com.example.asm;
 
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -20,6 +22,7 @@ public class DrawerMenu extends AppCompatActivity implements NavigationView.OnNa
     BottomNavigationView navigationView;
     FrameLayout frameLayout;
     CreateExpendituresFragment createExpendituresFragment;
+    ListExpendituresFragment listExpendituresFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +47,22 @@ public class DrawerMenu extends AppCompatActivity implements NavigationView.OnNa
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Log.d("main", String.valueOf(item.getItemId()));
+        switch (item.getItemId()){
+            case R.id.list:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_content, listExpendituresFragment, ListExpendituresFragment.class.getName())
+                        .commit();
+                break;
+            case R.id.create:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_content, createExpendituresFragment, CreateExpendituresFragment.class.getName())
+                        .commit();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + item.getItemId());
+        }
         return false;
     }
 }
