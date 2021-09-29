@@ -1,19 +1,24 @@
 package com.example.asm;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,6 +33,7 @@ public class CreateExpendituresFragment extends Fragment implements View.OnClick
     private Button btnCreate;
     private Spinner spCategory;
     private DBHelper dbHelper;
+    private SimpleCursorAdapter simpleCursorAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,13 +83,26 @@ public class CreateExpendituresFragment extends Fragment implements View.OnClick
         ArrayList<String> categories = new ArrayList<String>();
         if (cursor != null)
         {
-            if (cursor.moveToFirst()) {
-                for(int i = 0; i < cursor.getCount(); i ++){
-                    categories.add(cursor.getString(i));
-                }
+            while (cursor.moveToNext()) {
+                categories.add(cursor.getString(cursor.getColumnIndex("name")));
             }
             cursor.close();
         }
         return categories;
     }
+
+//    private void onCreate() {
+//        if (edName.getText().toString().isEmpty()) {
+//            Toast.makeText(this.getContext(), "Please enter name", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//        if (edMoney.getText().toString().isEmpty()) {
+//            Toast.makeText(this.getContext(), "Please enter money", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//        String isAdd = dbHelper.addPayment(edName.getText().toString(), spCategory.getSelectedItem(), edDescription.getText().toString());
+//        Toast.makeText(this, isAdd, Toast.LENGTH_SHORT).show();
+//        Intent intent = new Intent(this, ListUserActivity.class);
+//        startActivity(intent);
+//    }
 }
