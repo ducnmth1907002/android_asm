@@ -11,13 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 
 public class DrawerMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NavigationBarView.OnItemSelectedListener{
     DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    Toolbar toolbar;
+    BottomNavigationView navigationView;
     FrameLayout frameLayout;
     CreateExpendituresFragment createExpendituresFragment;
     @Override
@@ -29,16 +29,9 @@ public class DrawerMenu extends AppCompatActivity implements NavigationView.OnNa
 
     private void initView() {
         drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.drawer_nav_view);
-        toolbar = findViewById(R.id.drawer_toolbar);
-
+        navigationView = findViewById(R.id.drawer_bottom_view);
         navigationView.bringToFront();
-        setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle =
-                new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                        R.string.open_menu, R.string.close_menu);
-        drawerLayout.addDrawerListener(toggle);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setOnItemSelectedListener(this);
 
         //gán fragment vào frame layout
         frameLayout = findViewById(R.id.main_content);
